@@ -118,3 +118,113 @@ In Node.js each module is wrapped in a function that is generated auomatically b
 1. Built-in modules (Core modules like fs, http, path...)
 2. Local modules (JS files created by the developer)
 3. Third-party modules (Installed using npm)
+
+## D. Top built-in modules in Node.js:
+
+### 1. fs:
+
+Used for managing files and directories.
+
+```
+const fs = require('fs');
+
+fs.readFile('file.txt', 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(data);
+});
+
+fs.writeFile('file.txt', 'Hello World', 'utf8', (err) => {
+    if  (err) {
+        console.error(err);
+        return;
+        }
+        console.log('File written successfully');
+});
+// other methods: appendFile, unlink, readdir, mkdir, rmdir, stat...
+
+```
+
+### 2. path:
+
+Provide utilities for joining, resolving, parsing, formatting, and validating file and directory paths.
+
+```
+const path = require('path');
+
+// Joining paths
+const fullPath = path.join(__dirname, 'file.txt');
+console.log(fullPath);
+
+// Parsing paths
+const parsetPathObj = path.parse('/path/to/file.txt');
+console.log(parsetPathObj);
+/*
+{
+    root: '/',
+    dir: '/path',
+    base: 'file.txt',
+    ext: '.txt',
+    name: 'file'
+}
+*/
+```
+
+### 3. os:
+
+Provide a set of methods for interacting with the operating system.
+
+```
+const os = require('os');
+
+// Get platform name
+console.log(os.type()); // 'Linux' or 'Windows_NT'
+
+// Get current user info
+console.log(os.userInfo()); // { uid: 1000, gid: 20, username: 'root' }
+
+// Get memory informations
+console.log(os.freemem());  // 1024000
+console.log(os.totalmem());  // 104857600
+```
+
+### 4. events:
+
+Provide a set of methods for emitting and listening to events.
+
+```
+const EventEmitter = require('events');
+
+// Instantiate EventEmitter class
+const emitter = new EventEmitter();
+
+// Register a listener with 3 event arguments
+emitter.on('eventName', (arg1, arg2, arg3) => {
+    console.log('event fired');
+    // Do something
+});
+
+// Emit an event
+emitter.emit('eventName', 'arg1', 'arg2', 'arg3');
+```
+
+### 5. http:
+
+Permit to create a server and handle requests.
+
+```
+const http = require('http');
+
+// Create a server
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end('<h1>Hello World</h1>');
+});
+
+// Start the server
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000');
+})
+```
