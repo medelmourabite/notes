@@ -98,7 +98,7 @@ exports.f2 = function(){}
 
 ### 5. How to import a module:
 
-```
+```js
 const module = require('module');
 const f2 = module('f2);
 ```
@@ -107,9 +107,9 @@ const f2 = module('f2);
 
 In Node.js each module is wrapped in a function that is generated auomatically before it is executed.
 
-```
+```js
 (function (exports, require, module, __filename, __dirname) {
-    // code here
+  // code here
 });
 ```
 
@@ -125,33 +125,32 @@ In Node.js each module is wrapped in a function that is generated auomatically b
 
 Used for managing files and directories.
 
-```
+```js
 const fs = require('fs');
 
 fs.readFile('file.txt', 'utf8', (err, data) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(data);
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(data);
 });
 
 fs.writeFile('file.txt', 'Hello World', 'utf8', (err) => {
-    if  (err) {
-        console.error(err);
-        return;
-        }
-        console.log('File written successfully');
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('File written successfully');
 });
 // other methods: appendFile, unlink, readdir, mkdir, rmdir, stat...
-
 ```
 
 ### 2. path:
 
 Provide utilities for joining, resolving, parsing, formatting, and validating file and directory paths.
 
-```
+```js
 const path = require('path');
 
 // Joining paths
@@ -176,7 +175,7 @@ console.log(parsetPathObj);
 
 Provide a set of methods for interacting with the operating system.
 
-```
+```js
 const os = require('os');
 
 // Get platform name
@@ -186,15 +185,15 @@ console.log(os.type()); // 'Linux' or 'Windows_NT'
 console.log(os.userInfo()); // { uid: 1000, gid: 20, username: 'root' }
 
 // Get memory informations
-console.log(os.freemem());  // 1024000
-console.log(os.totalmem());  // 104857600
+console.log(os.freemem()); // 1024000
+console.log(os.totalmem()); // 104857600
 ```
 
 ### 4. events:
 
 Provide a set of methods for emitting and listening to events.
 
-```
+```js
 const EventEmitter = require('events');
 
 // Instantiate EventEmitter class
@@ -202,8 +201,8 @@ const emitter = new EventEmitter();
 
 // Register a listener with 3 event arguments
 emitter.on('eventName', (arg1, arg2, arg3) => {
-    console.log('event fired');
-    // Do something
+  console.log('event fired');
+  // Do something
 });
 
 // Emit an event
@@ -214,17 +213,96 @@ emitter.emit('eventName', 'arg1', 'arg2', 'arg3');
 
 Permit to create a server and handle requests.
 
-```
+```js
 const http = require('http');
 
 // Create a server
 const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end('<h1>Hello World</h1>');
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end('<h1>Hello World</h1>');
 });
 
 // Start the server
 server.listen(3000, () => {
-    console.log('Server running at http://localhost:3000');
-})
+  console.log('Server running at http://localhost:3000');
+});
 ```
+
+## E. Error Handling and Debugging:
+
+### 1. What is Error Handling?
+
+It is the process of managing errors in a program.
+
+#### 1.1. Try-catch block (Sync)
+
+```js
+try {
+  // Synchronous operations
+  throw new Error('Error message');
+} catch (err) {
+  // Handle the error
+  console.log('Error: ' + err.message);
+} finally {
+  // Code that will run after the try-catch block
+  console.log('This will always run');
+}
+```
+
+#### 1.2. Error-First Callback (Async)
+
+The error is the first argument passed to the callback function.
+
+```js
+const errorFirstCallback = (err, result) => {
+  if (err) {
+    console.log(err.message);
+    return;
+  }
+  console.log(result);
+};
+```
+
+#### 1.3. Promises (Async)
+
+```js
+const promise1 = new Promise((resolve, reject) => {
+  // Synchronous operations
+  if(operationIsSuccessful) {
+    resolve('Success');
+  } else {
+      reject(new Error('Error message'));
+  }
+});
+
+promise1.then(result =>  {
+  console.log(result);
+}).catch(err =>  {
+  console.log(err.message);
+}).finally( => {
+  console.log('This will always run');
+});
+```
+
+#### 1.4. try-catch with async-await (Async)
+
+```js
+const asyncFunction = async () => {
+  try {
+    // run some async operation that might throw an error
+    const result = await someAsyncOperation();
+    return result;
+  } catch (err) {
+    console.log(err.message);
+  } finally {
+    console.log('This will always run');
+  }
+};
+```
+
+### 2. How to debug Node.js code?
+
+1. console.log()
+2. debugger
+3. node inspect
+4. DevTools
